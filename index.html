@@ -20,13 +20,22 @@
             function saveFile(name, type, data) {
                 if (data != null && navigator.msSaveBlob)
                     return navigator.msSaveBlob(
-                        new Blob([data], { type: type }),
+                        new Blob([data], { type: type, name: name }),
                         name
                     );
+                var a = $("<a style='display: none;'/>");
                 var url = window.URL.createObjectURL(
-                    new Blob([data], { type: type , name : name })
+                    new Blob([data], { type: type, name: name })
                 );
-                window.open(url);
+                a.attr("href", url);
+                a.attr("download", name);
+                a.attr("target", "_self");
+                $("body").append(a);
+                a[0].click();
+                setTimeout(() => {
+                    window.URL.revokeObjectURL(url);
+                    a.remove();
+                }, 100);
             }
         </script>
     </body>

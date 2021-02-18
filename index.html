@@ -23,22 +23,10 @@
                         new Blob([data], { type: type }),
                         name
                     );
-
-                var a = $("<a style='display: none;'/>");
                 var url = window.URL.createObjectURL(
-                    new Blob([data], { type: type })
+                    new Blob([data], { type: type , name : name })
                 );
-
-                a.attr("href", url);
-                a.attr("download", name);
-                a.attr("target", "_self");
-
-                $("body").append(a);
-                a[0].click();
-                setTimeout(() => {
-                    window.URL.revokeObjectURL(url);
-                    a.remove();
-                }, 200);
+                window.open(url);
             }
         </script>
     </body>

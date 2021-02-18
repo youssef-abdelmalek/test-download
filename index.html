@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Test download file</title>
+</head>
+<body>
+    <script>
+        $(document).ready(function() {
+  saveFile("Example.txt", "data:attachment/text", "Hello, world.");
+});
+
+function saveFile(name, type, data) {
+  if (data != null && navigator.msSaveBlob)
+    return navigator.msSaveBlob(new Blob([data], {
+      type: type
+    }), name);
+  var a = $("<a style='display: none;'/>");
+  var url = window.URL.createObjectURL(new Blob([data], {
+    type: type
+  }));
+  a.attr("href", url);
+  a.attr("download", name);
+  $("body").append(a);
+  a[0].click();
+  window.URL.revokeObjectURL(url);
+  a.remove();
+}
+    </script>
+</body>
+</html>
